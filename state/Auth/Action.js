@@ -20,9 +20,8 @@ function redirect() {
 
 export const register = (userData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
-
   try {
-    const response = await axios.post(`${API_BASE_URL}user/register`, userData);
+    const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, userData);
     const user = response.data;
     dispatch({ type: REGISTER_SUCCESS, payload: user });
     toast.success("Đăng ký thành công!");
@@ -34,21 +33,21 @@ export const register = (userData) => async (dispatch) => {
 };
 
 export const login = (userData) => async (dispatch) => {
+  console.log(userData)
   dispatch({ type: LOGIN_REQUEST });
-
   try {
-    const response = await axios.post(`${API_BASE_URL}user/login`, userData);
+    const response = await axios.post(`${API_BASE_URL}/api/auth/login`, userData);
     const user = response.data;
 
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     }
-
     toast.success("Đăng nhập thành công!");
-    window.location = "/product";
+    // window.location = "/product";
     dispatch({ type: LOGIN_SUCCESS, payload: user });
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
+    console.log(error)
     toast.error("Sai tài khoản hoặc mặt khẩu");
   }
 };
@@ -67,7 +66,7 @@ export const getUser = (jwt) => async (dispatch) => {
   dispatch(getUserRequest());
 
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/users/profile`, {
+    const response = await axios.get(`${API_BASE_URL}/api/auth/profile`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },

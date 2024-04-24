@@ -7,7 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-// import { getCart } from "@/state/Cart/Action";
+import { getCart } from "@/state/Cart/Action";
+import { getUser } from "@/state/Auth/Action";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
@@ -19,40 +20,46 @@ function covertDataToUnsigned(string) {
 }
 
 export default function FirstRow() {
-  // const [auth, setAuth] = useState();
-  // const user = useSelector((store) => store?.auth?.user);
-  // const dispatch = useDispatch();
-  // const router = useRouter();
+  const [auth, setAuth] = useState();
+  const userToken = useSelector((store) => store?.auth?.user?.accessToken);
+  const userInformation = useSelector((store) => store?.auth?.user)
 
-  // const cartItem = useSelector((store) => store?.cart?.cartItem);
-  // const cart = useSelector((store) => store?.cart?.cart);
+  console.log(userInformation)
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const cartItem = useSelector((store) => store?.cart?.cartItem);
+  const cart = useSelector((store) => store?.cart?.cart);
   // const dataPro = useSelector((store) => store?.product?.products);
 
   // const [search, setSearch] = useState("");
   // const [dataSearch, setDataSearch] = useState([]);
   // const [showList, setShowList] = useState(false);
 
-  // let value;
-  // if (typeof window !== "undefined") {
-  //   value = JSON.parse(localStorage.getItem("user")) || null;
-  // }
+  let value;
+  if (typeof window !== "undefined") {
+    value = JSON.parse(localStorage.getItem("user")) || null;
+  }
 
-  // useEffect(() => {
-  //   // Get the value from local storage if it exists
-  //   setAuth(value);
-  //   dispatch(getCart());
-  // }, [user, cart?.cartTotal, cartItem?.cartTotal]);
+  useEffect(() => {
+    // Get the value from local storage if it exists
+    dispatch(getUser(userToken))
+    setAuth(value);
+    dispatch(getCart(userInformation?.id));
+  }, [userToken, cart?.cartTotal, cartItem?.cartTotal]);
 
-  // function redirect() {
-  //   window.location.href = '/'
-  // }
 
-  // function handleLogout() {
-  //   setAuth("");
-  //   localStorage.clear();
-  //   toast.success("Bạn đã đăng xuất");
-  //   setTimeout(redirect, 1000)
-  // }
+  function redirect() {
+    window.location.href = '/'
+  }
+
+  function handleLogout() {
+    setAuth("");
+    localStorage.clear();
+    toast.success("Bạn đã đăng xuất");
+    setTimeout(redirect, 1000)
+  }
+
   return (
     <div className="w-full bg-[#ede2d1]">
       <div className="grid items-center grid-cols-6 py-4 max-w-[1320px] mx-auto">
@@ -67,20 +74,20 @@ export default function FirstRow() {
             type="text"
             className="w-full px-3 py-2 border-[1px] border-x-2 border-white focus:outline-none rounded-full bg-white"
             placeholder="Tìm kiếm sản phẩm ở đây ..."
-            // value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setShowList(true);
+          // value={search}
+          // onChange={(e) => {
+          //   setSearch(e.target.value);
+          //   setShowList(true);
 
-              setDataSearch(
-                dataPro.filter((data) =>
-                  covertDataToUnsigned(data.title).includes(
-                    covertDataToUnsigned(e.target.value)
-                  )
-                )
-              );
-            }}
-            onBlur={() => setTimeout(() => setShowList(false), 200)}
+          //   setDataSearch(
+          //     dataPro.filter((data) =>
+          //       covertDataToUnsigned(data.title).includes(
+          //         covertDataToUnsigned(e.target.value)
+          //       )
+          //     )
+          //   );
+          // }}
+          // onBlur={() => setTimeout(() => setShowList(false), 200)}
           />
           {/* {showList && (
             <div className="absolute z-[80] w-[94%] rounded-lg top-11 ">
@@ -122,7 +129,7 @@ export default function FirstRow() {
           </a>
           <div className="flex items-center hover:cursor-pointer hover:opacity-75">
             <UserIcon className="w-10 h-10 font-thin text-orange-gray" />
-            {/* {!auth ? (
+            {!auth ? (
               <Link
                 href="/login"
                 className="ml-2 text-sm font-medium text-orange-gray"
@@ -132,7 +139,7 @@ export default function FirstRow() {
             ) : (
               <div>
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
-                  {auth.firstname}
+                  {userInformation?.lastName} {userInformation?.firstName}
                 </div>
                 <p
                   onClick={handleLogout}
@@ -141,7 +148,7 @@ export default function FirstRow() {
                   Đăng xuất
                 </p>
               </div>
-            )} */}
+            )}
           </div>
           <Link
             href={"/cart"}
