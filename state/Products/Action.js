@@ -70,7 +70,7 @@ export const getProductByBrand = () => async (dispatch) => {
   dispatch({ type: GET_ALL_BRAND_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}brand`);
+    const { data } = await axios.get(`${API_BASE_URL}/admin/brands/get-all`);
     dispatch({ type: GET_ALL_BRAND_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ALL_BRAND_FAILURE, payload: error.message });
@@ -81,7 +81,7 @@ export const getProductByCategory = () => async (dispatch) => {
   dispatch({ type: GET_ALL_CATEGORY_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}prodcategory`);
+    const { data } = await axios.get(`${API_BASE_URL}/admin/categories/get-all`);
     dispatch({ type: GET_ALL_CATEGORY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ALL_CATEGORY_FAILURE, payload: error.message });

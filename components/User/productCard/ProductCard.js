@@ -1,11 +1,11 @@
-// import {
-//   CheckBox,
-//   CompareArrows,
-//   CompareArrowsOutlined,
-//   Favorite,
-//   FavoriteBorder,
-//   ShoppingCart,
-// } from "@mui/icons-material";
+import {
+  CheckBox,
+  CompareArrows,
+  CompareArrowsOutlined,
+  Favorite,
+  FavoriteBorder,
+  ShoppingCart,
+} from "@mui/icons-material";
 import { Rating } from "@mui/material";
 import React, { useEffect } from "react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ import { getSingleProduct } from "@/state/Products/Action";
 import { addProductToCart } from "@/state/Cart/Action";
 
 const ProductCard = ({ grid, item }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   // function handleAddToCart(product) {
@@ -38,12 +38,10 @@ const ProductCard = ({ grid, item }) => {
   // }, []);
   return (
     <div
-      // onClick={(e) => {
-      //   e.preventDefault();
-      //   console.log(item._id);
-
-      //   router.push(`product/${item._id}`);
-      // }}
+      onClick={(e) => {
+        e.preventDefault();
+        router.push(`product/${item.id}`);
+      }}
     >
       <div
         class={`flex w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md h-[25rem] ${

@@ -33,7 +33,6 @@ export const register = (userData) => async (dispatch) => {
 };
 
 export const login = (userData) => async (dispatch) => {
-  console.log(userData)
   dispatch({ type: LOGIN_REQUEST });
   try {
     const response = await axios.post(`${API_BASE_URL}/api/auth/login`, userData);
@@ -43,7 +42,7 @@ export const login = (userData) => async (dispatch) => {
       localStorage.setItem("user", JSON.stringify(user));
     }
     toast.success("Đăng nhập thành công!");
-    // window.location = "/product";
+    window.location = "/product";
     dispatch({ type: LOGIN_SUCCESS, payload: user });
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
@@ -71,10 +70,11 @@ export const getUser = (jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    const user = response.data;
-
-    dispatch(getUserSuccess(user));
+    const userInformation = response.data;
+    localStorage.setItem('userInformation', JSON.stringify(userInformation))
+    dispatch(getUserSuccess(userInformation));
   } catch (error) {
     dispatch(getUserFailure(error.message));
+    console.log(error)
   }
 };

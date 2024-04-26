@@ -21,10 +21,8 @@ function covertDataToUnsigned(string) {
 
 export default function FirstRow() {
   const [auth, setAuth] = useState();
-  const userToken = useSelector((store) => store?.auth?.user?.accessToken);
-  const userInformation = useSelector((store) => store?.auth?.user)
+  const user = useSelector((store) => store?.auth?.user);
 
-  console.log(userInformation)
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -40,13 +38,12 @@ export default function FirstRow() {
   if (typeof window !== "undefined") {
     value = JSON.parse(localStorage.getItem("user")) || null;
   }
-
+  
   useEffect(() => {
     // Get the value from local storage if it exists
-    dispatch(getUser(userToken))
     setAuth(value);
-    dispatch(getCart(userInformation?.id));
-  }, [userToken, cart?.cartTotal, cartItem?.cartTotal]);
+    dispatch(getCart(auth?.id));
+  }, [cart?.cartTotal, cartItem?.cartTotal]);
 
 
   function redirect() {
@@ -139,7 +136,7 @@ export default function FirstRow() {
             ) : (
               <div>
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
-                  {userInformation?.lastName} {userInformation?.firstName}
+                  {auth?.lastName} {auth?.firstName}
                 </div>
                 <p
                   onClick={handleLogout}
