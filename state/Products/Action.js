@@ -28,7 +28,7 @@ export const getProducts = () => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/admin/product/get-all`);
+    const { data } = await axios.get(`${API_BASE_URL}/admin/product/get-all?size=${100}`);
     dispatch({ type: GET_PRODUCTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_PRODUCTS_FAILURE, payload: error.message });

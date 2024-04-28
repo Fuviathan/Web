@@ -18,7 +18,7 @@ export default function ProductDetailPage({ productData }) {
 export async function getStaticPaths() {
   try {
     // Fetch the list of product IDs from your API
-    const response = await axios.get(`${API_BASE_URL}/admin/product/get-all`);
+    const response = await axios.get(`${API_BASE_URL}/admin/product/get-all?size=${100}`);
     const products = response.data;
     // Generate paths for each product ID
     const paths = products.map((product) => ({
