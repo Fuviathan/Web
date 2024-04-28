@@ -19,31 +19,28 @@ function covertDataToUnsigned(string) {
     .toLowerCase();
 }
 
-export default function FirstRow() {
+export default function FirstRow(props) {
   const [auth, setAuth] = useState();
-  const user = useSelector((store) => store?.auth?.user);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const cartItem = useSelector((store) => store?.cart?.cartItem);
-  const cart = useSelector((store) => store?.cart?.cart);
+
+
   // const dataPro = useSelector((store) => store?.product?.products);
 
   // const [search, setSearch] = useState("");
   // const [dataSearch, setDataSearch] = useState([]);
   // const [showList, setShowList] = useState(false);
-
-  let value;
-  if (typeof window !== "undefined") {
-    value = JSON.parse(localStorage.getItem("user")) || null;
-  }
   
-  useEffect(() => {
-    // Get the value from local storage if it exists
-    setAuth(value);
-    dispatch(getCart(auth?.id));
-  }, [cart?.cartTotal, cartItem?.cartTotal]);
+  const cart = useSelector((store) => store?.cart?.cart);
+  if (props.user) {
+    useEffect(() => {
+      // Get the value from local storage if it exists
+      setAuth(props.user);
+      dispatch(getCart(props.user.id));
+    }, [cart?.totalPrice]);
+  }
 
 
   function redirect() {
@@ -153,11 +150,11 @@ export default function FirstRow() {
           >
             <ShoppingCartIcon className="w-10 h-10 font-thin text-orange-gray" />
 
-            {/* {auth && (
+            {auth && (
               <div className="font-medium text-md text-orange-gray">
-                {cart ? `${cart?.cartTotal}$` : ""}{" "}
+                {cart ? `${cart?.totalPrice}$` : ""}{" "}
               </div>
-            )} */}
+            )}
           </Link>
         </div>
       </div>

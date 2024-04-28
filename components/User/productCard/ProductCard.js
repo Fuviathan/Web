@@ -44,12 +44,12 @@ const ProductCard = ({ grid, item }) => {
       }}
     >
       <div
-        class={`flex w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md h-[25rem] ${
+        className={`flex w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md h-[25rem] ${
           grid === 6 ? " flex-row justify-start" : " flex-col"
         } `}
       >
         <div
-          class={`relative border m-4 flex h-60 overflow-hidden rounded-xl w-max-full ${
+          className={`relative border m-4 flex h-60 overflow-hidden rounded-xl w-max-full ${
             grid === 6 ? " w-1/3 " : " "
           } `}
         >
@@ -65,7 +65,7 @@ const ProductCard = ({ grid, item }) => {
             />
           </div>
           {item?.discountPercent !== 0 && (
-            <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
+            <span className="absolute top-0 left-0 px-2 m-2 text-sm font-medium text-center text-white bg-black rounded-full">
               {item?.discountPercent}% OFF
             </span>
           )}

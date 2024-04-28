@@ -26,7 +26,7 @@ export const getCart = (id) => async (dispatch) => {
   try {
     const { data } = await api.get(`/user/cart/${id}`);
 
-    dispatch({ type: GET_CART_SUCCESS, payload: data[0] });
+    dispatch({ type: GET_CART_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_CART_FAILURE, payload: error.message });
   }
@@ -34,8 +34,11 @@ export const getCart = (id) => async (dispatch) => {
 
 export const addProductToCart = (req) => async (dispatch) => {
   dispatch({ type: ADD_PRODUCT_TO_CART_REQUEST });
+  const cart = req.cart[0]
+  const userID = req.cart[0].id
+  delete cart.id
   try {
-    const { data } = await api.post("user/cart", req);
+    const { data } = await api.post(`/user/cart/${userID}`, cart);
     dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: data });
     toast.success("Thêm sản phẩm thành công!");
   } catch (error) {

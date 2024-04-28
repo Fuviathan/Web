@@ -21,15 +21,14 @@ import { addProductToCart } from "@/state/Cart/Action";
 
 export default function ProductDetail({ product }) {
   const dispatch = useDispatch();
-  console.log(product)
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
-  const router = useRouter();
-  const { productId } = router.query;
-  const product1 = useSelector((store) => store);
-  console
-
+  let userInformation
+  if (typeof window !== 'undefined') {
+    userInformation = localStorage.getItem('user') || ""
+    userInformation = JSON.parse(userInformation)
+  }
+  
   // ======= OPTION MENU==============
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
@@ -44,15 +43,15 @@ export default function ProductDetail({ product }) {
     const data = {
       cart: [
         {
+          id: userInformation?.id,
           productId: product?.id,
-          count: quantity,
+          quantity: quantity,
           price: product?.variations[0]?.price,
           attributeVariationLv1: product?.variations[0]?.attributeVariationLv1
         },
       ],
     };
-    console.log(data)
-    // dispatch(addProductToCart(data));
+    dispatch(addProductToCart(data));
   }
 
   // useEffect(() => {
