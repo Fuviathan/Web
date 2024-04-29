@@ -8,7 +8,6 @@ import {
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "@/state/Cart/Action";
-import { getUser } from "@/state/Auth/Action";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
@@ -32,15 +31,15 @@ export default function FirstRow(props) {
   // const [search, setSearch] = useState("");
   // const [dataSearch, setDataSearch] = useState([]);
   // const [showList, setShowList] = useState(false);
-  
+
   const cart = useSelector((store) => store?.cart?.cart);
-  if (props.user) {
-    useEffect(() => {
-      // Get the value from local storage if it exists
-      setAuth(props.user);
-      dispatch(getCart(props.user.id));
-    }, [cart?.totalPrice]);
-  }
+  const cartItem = useSelector((store) => store.cart?.cartItem)
+  console.log(cartItem)
+  useEffect(() => {
+    // Get the value from local storage if it exists
+    setAuth(props.user);
+    dispatch(getCart(props?.user?.id))
+  }, [cartItem]);
 
 
   function redirect() {

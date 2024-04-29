@@ -11,11 +11,11 @@ const PriceDetail = (props) => {
         <div className="px-4 text-xl font-medium text-black">
           <div className="flex justify-between pt-3">
             <div>Tổng tiền thanh toán</div>
-            <div>{props.cart?.cartTotal}$</div>
+            <div>{props?.cart?.totalPrice}$</div>
           </div>
           <div className="flex justify-between pt-3">
             <div>Giảm giá</div>
-            <div className="text-green-600">0$</div>
+            <div className="text-green-600">{props?.cart?.totalPrice - props.cart?.totalDiscountedPrice}$</div>
           </div>
           <div className="flex justify-between pt-3 mb-4">
             <div>Phí vận chuyển</div>
@@ -24,7 +24,7 @@ const PriceDetail = (props) => {
           <hr></hr>
           <div className="flex justify-between pt-3">
             <div>Tổng số tiền</div>
-            <div className="text-green-600">{props.cart?.cartTotal}$</div>
+            <div className="text-green-600">{props.cart?.totalDiscountedPrice}$</div>
           </div>
         </div>
         <button 

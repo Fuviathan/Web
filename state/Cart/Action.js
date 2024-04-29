@@ -17,7 +17,8 @@ import {
   CREATE_ORDER_SUCCESS,
   GET_ALL_ORDERS_FAILURE,
   GET_ALL_ORDERS_REQUEST,
-  GET_ALL_ORDERS_SUCCESS
+  GET_ALL_ORDERS_SUCCESS,
+  CLEAR_PRODUCT_ITEM_CART_REQUEST
 } from "./ActionType";
 import { toast } from "react-toastify";
 
@@ -38,18 +39,23 @@ export const addProductToCart = (req) => async (dispatch) => {
   const userID = req.cart[0].id
   delete cart.id
   try {
-    const { data } = await api.post(`/user/cart/${userID}`, cart);
+    let { data } = await api.post(`/user/cart/${userID}`, cart);
     dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: data });
+    // dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: null });
     toast.success("Thêm sản phẩm thành công!");
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_TO_CART_FAILURE, payload: error.message });
   }
 };
 
+export const clearCart = () => async (dispatch) => {
+  dispatch({ type: CLEAR_PRODUCT_ITEM_CART_REQUEST, payload: null });
+};
+
 export const removeProductFromCart = (productId) => async (dispatch) => {
   dispatch({ type: DELETE_PRODUCT_FROM_CART_REQUEST });
   try {
-    const { data } = await api.delete(`user/delete-product-cart/${productId}`);
+    const { data } = await api.delete(`/user/cart/${productId}`);
     dispatch({ type: DELETE_PRODUCT_FROM_CART_SUCCESS, payload: data });
     toast.success("Đã xóa sản phẩm khỏi giỏ hàng!");
   } catch (error) {

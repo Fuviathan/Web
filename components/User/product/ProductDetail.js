@@ -16,7 +16,7 @@ import { Review } from "./Review";
 import SwiperProduct from "./SwiperProduct";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { addProductToCart } from "@/state/Cart/Action";
+import { addProductToCart, clearCart } from "@/state/Cart/Action";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product }) {
@@ -52,6 +52,7 @@ export default function ProductDetail({ product }) {
       ],
     };
     dispatch(addProductToCart(data));
+    setTimeout(() => dispatch(clearCart()), 1000)
   }
 
   // useEffect(() => {

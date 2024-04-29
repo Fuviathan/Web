@@ -16,6 +16,7 @@ import {
   UPDATE_PRODUCT_IN_CART_FAILURE,
   UPDATE_PRODUCT_IN_CART_REQUEST,
   UPDATE_PRODUCT_IN_CART_SUCCESS,
+  CLEAR_PRODUCT_ITEM_CART_REQUEST
 } from "./ActionType";
 
 const initialState = {
@@ -27,6 +28,13 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_PRODUCT_ITEM_CART_REQUEST:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        cartItem: action.payload,
+      };
     case GET_ALL_ORDERS_REQUEST:
     case GET_CART_REQUEST:
     case DELETE_PRODUCT_FROM_CART_REQUEST:
