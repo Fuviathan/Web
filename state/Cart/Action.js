@@ -1,4 +1,5 @@
 import { api } from "@/config/apiConfig";
+import { apiFormData } from "@/config/apiConfig";
 import {
   ADD_PRODUCT_TO_CART_FAILURE,
   ADD_PRODUCT_TO_CART_REQUEST,
@@ -67,14 +68,15 @@ export const removeProductFromCart = (productId) => async (dispatch) => {
 };
 
 export const updateProductInCart = (req) => async (dispatch) => {
+  const itemID = req.id
+  delete req.id
   dispatch({ type: UPDATE_PRODUCT_IN_CART_REQUEST });
   try {
-    const { data } = await api.delete(
-      `user/update-product-cart/${req.id}/${req.quantity}`
-    );
+    await apiFormData.put(`/user/cart/${itemID}`, req);
     dispatch({ type: UPDATE_PRODUCT_IN_CART_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_IN_CART_FAILURE, payload: error.message });
+    location.reload()
   }
 };
 
@@ -82,11 +84,11 @@ function redirect() {
   window.location.href = '/'
 }
 
-export const createOrder = (req) => async (dispatch) => {
+export const createOrder = (userID) => async (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
-
+  console.log(userID)
   try {
-    const { data } = await api.post(`user/cart/create-order`, req);
+    const { data } = await api.put(`/user/orders/${userID}`);
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
     toast.success("Tạo đơn hàng thành công!");
     setTimeout(redirect, 1000)
@@ -95,10 +97,10 @@ export const createOrder = (req) => async (dispatch) => {
   }
 };
 
-export const getAllOrderOfUser = () => async (dispatch) => {
+export const getAllOrderOfUser = (userID) => async (dispatch) => {
   dispatch({ type: GET_ALL_ORDERS_REQUEST });
   try {
-    const { data } = await api.get("user/carts");
+    const { data } = await api.get(`/user/orders/history/${userID}`);
     dispatch({ type: GET_ALL_ORDERS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ALL_ORDERS_FAILURE, payload: error.message });

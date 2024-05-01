@@ -20,12 +20,8 @@ function covertDataToUnsigned(string) {
 
 export default function FirstRow(props) {
   const [auth, setAuth] = useState();
-
   const dispatch = useDispatch();
   const router = useRouter();
-
-
-
   // const dataPro = useSelector((store) => store?.product?.products);
 
   // const [search, setSearch] = useState("");
@@ -34,7 +30,6 @@ export default function FirstRow(props) {
 
   const cart = useSelector((store) => store?.cart?.cart);
   const cartItem = useSelector((store) => store.cart?.cartItem)
-  console.log(cartItem)
   useEffect(() => {
     // Get the value from local storage if it exists
     setAuth(props.user);

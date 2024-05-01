@@ -3,7 +3,7 @@ import axios from "axios";
 export const API_BASE_URL = 'https://cosmetics-web.fly.dev';
 
 // Hàm để lấy token từ localStorage
-const getTokenFromLocalStorage = () => {
+export const getTokenFromLocalStorage = () => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("user") || "";
   }
@@ -14,7 +14,14 @@ const getTokenFromLocalStorage = () => {
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
+  },
+});
+
+export const apiFormData = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "multipart/form-data"
   },
 });
 

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CartItem from "./CartItem";
 import PriceDetail from "./PriceDetail";
-import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "@/state/Cart/Action";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import { getCart } from "@/state/Cart/Action";
 
 const Cart = (props) => {
-  const [auth, setAuth] = useState();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  let value;
+  if (typeof window !== "undefined") {
+    value = JSON.parse(localStorage.getItem("user")) || null;
+  }
   const cart = useSelector((store) => store?.cart?.cart);
-  const cartItem = useSelector((store) => store);
-  const userID = useSelector((store) => store?.auth?.user?.id)
+  const cartItem = useSelector((store) => store?.cart?.cart?.totalItem);
   useEffect(() => {
-    let value;
     // Get the value from local storage if it exists
-    value = localStorage.getItem("token") || "";
-    setAuth(value);
-    dispatch(getCart(userID));
-  }, [cart]);
-  if (!cart || cart.cartTotal == 0 ) return (
+    dispatch(getCart(value.id))
+  }, [cart, cartItem]);
+
+  if (!cart || cart?.totalPrice === 0) return (
     <div className="flex flex-col items-center justify-center h-full my-4 bg-white">
       <div className="p-6 text-2xl font-medium bg-white">
         Giỏ hàng của bạn chưa có sản phẩm nào
@@ -27,13 +27,13 @@ const Cart = (props) => {
         Quay lại mua sắm
       </Link>
     </div>
-  ) 
+  )
   else if (cart) return (
     <div className="h-full my-4">
       <div className="flex justify-between mx-auto max-w-[1320px]">
         <div className="w-4/6 mr-8">
-          {cart?.products.map((item) => (
-            <CartItem key={item._id} data={item}></CartItem>
+          {cart?.cartItems.map((item) => (
+            <CartItem key={item.id} data={item}></CartItem>
           ))}
         </div>
         <div className="w-1/3">

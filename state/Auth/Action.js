@@ -37,7 +37,6 @@ export const login = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/auth/login`, userData);
     const user = response.data;
-
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     }
