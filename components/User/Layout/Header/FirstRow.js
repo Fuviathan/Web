@@ -22,11 +22,10 @@ export default function FirstRow(props) {
   const [auth, setAuth] = useState();
   const dispatch = useDispatch();
   const router = useRouter();
-  // const dataPro = useSelector((store) => store?.product?.products);
-
-  // const [search, setSearch] = useState("");
-  // const [dataSearch, setDataSearch] = useState([]);
-  // const [showList, setShowList] = useState(false);
+  const dataPro = useSelector((store) => store?.product?.products?.content);
+  const [search, setSearch] = useState("");
+  const [dataSearch, setDataSearch] = useState([]);
+  const [showList, setShowList] = useState(false);
 
   const cart = useSelector((store) => store?.cart?.cart);
   const cartItem = useSelector((store) => store.cart?.cartItem)
@@ -62,41 +61,41 @@ export default function FirstRow(props) {
             type="text"
             className="w-full px-3 py-2 border-[1px] border-x-2 border-white focus:outline-none rounded-full bg-white"
             placeholder="Tìm kiếm sản phẩm ở đây ..."
-          // value={search}
-          // onChange={(e) => {
-          //   setSearch(e.target.value);
-          //   setShowList(true);
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setShowList(true);
 
-          //   setDataSearch(
-          //     dataPro.filter((data) =>
-          //       covertDataToUnsigned(data.title).includes(
-          //         covertDataToUnsigned(e.target.value)
-          //       )
-          //     )
-          //   );
-          // }}
-          // onBlur={() => setTimeout(() => setShowList(false), 200)}
+              setDataSearch(
+                dataPro?.filter((data) =>
+                  covertDataToUnsigned(data.title).includes(
+                    covertDataToUnsigned(e.target.value)
+                  )
+                )
+              );
+            }}
+            onBlur={() => setTimeout(() => setShowList(false), 200)}
           />
-          {/* {showList && (
+          {showList && (
             <div className="absolute z-[80] w-[94%] rounded-lg top-11 ">
-              {dataSearch.length > 0 ? (
+              {dataSearch?.length > 0 ? (
                 <div className="overflow-y-auto rounded-lg h-[50vh]">
                   {dataSearch.map((i) => (
                     <div
-                      key={i._id}
+                      key={i.id}
                       className="hover:cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
-                        router.push(`/product/${i._id}`);
+                        router.push(`/product/${i.id}`);
                       }}
                     >
                       <div className="flex px-4 py-2 bg-white hover:bg-gray-200">
                         <img
                           className="w-12 h-12 mr-2"
-                          src={i.images[0].url}
-                          alt={i.title}
+                          src={i.images[0]?.imageUrl}
+                          alt={i?.title}
                         />
-                        <div>{i.title}</div>
+                        <div>{i?.title}</div>
                       </div>
                     </div>
                   ))}
@@ -105,7 +104,7 @@ export default function FirstRow(props) {
                 <div className="bg-white">Không tìm thấy sản phẩm</div>
               )}
             </div>
-          )} */}
+          )}
           <div className="absolute top-0 bottom-0 right-0 flex px-3 py-2 align-middle border-[1px] border-x-2 hover:opacity-80 border-white bg-[#ede2d1] rounded-r-full hover:cursor-pointer">
             <MagnifyingGlassIcon className="w-6 h-6 text-center text-orange-gray" />
           </div>
