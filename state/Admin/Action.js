@@ -230,9 +230,18 @@ export const addNewProduct = (req) => async (dispatch) => {
 
 export const updateProduct = (req) => async (dispatch) => {
   const { ID, ...data_t } = req;
+  const formdata = new FormData();
+  formdata.append("title", data_t.title);
+  formdata.append("description", data_t.description);
+  formdata.append("discountPercent", data_t.discountPercent);
+  formdata.append("brandId", data_t.brand);
+  formdata.append("categoryId", data_t.category);
+  formdata.append("nameVariationLv1", "Color");
+  formdata.append("imageIdDelete", "");
+  formdata.append("variations", `[\n  {\n    \"attributeVariationLv1\": \"red\",\n    \"quantity\": ${data_t.quantity},\n    \"price\": ${data_t.price}\n  }\n]\n`);
   dispatch({ type: UPDATE_PRODUCT_REQUEST });
   try {
-    const { data } = await api.put(`/product/${req.ID}`, data_t);
+    const { data } = await apiFormData.put(`/admin/product/update/${req.ID}`, formdata);
     dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: data });
     toast.success("Sửa thành công");
   } catch (e) {

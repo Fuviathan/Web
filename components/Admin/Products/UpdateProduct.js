@@ -36,9 +36,6 @@ const UpdateProduct = (props) => {
   });
   const onSubmit = (data) => {
     data.ID = props.data.id;
-    data.images = img;
-    data.price = Number(data.price);
-    data.quantity = Number(data.quantity);
     dispatch(updateProduct(data));
     setTimeout(() => {
       dispatch(getProducts());
@@ -119,7 +116,6 @@ const UpdateProduct = (props) => {
               <div className="w-1/2 ml-8">
                 <label className="block">Giá tiền</label>
                 <input
-                  type="number"
                   className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
                   {...register("price", { required: true })}
                 />
@@ -134,7 +130,6 @@ const UpdateProduct = (props) => {
               <div className="w-1/2 mr-8">
                 <label className="block">Giảm giá</label>
                 <input
-                  type="number"
                   className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
                   {...register("discountPercent", { required: true })}
                 />
@@ -152,17 +147,6 @@ const UpdateProduct = (props) => {
             {errors.description && (
               <div className="mt-2 text-sm italic text-red-400 text-italic">
                 *Không được để trống thông tin sản phẩm
-              </div>
-            )}
-            <label className="block mt-2">Ảnh của sản phẩm - Thêm file khi muốn thay đổi ảnh</label>
-            <input
-              className="w-full p-2 mt-2 overflow-y-auto border border-gray-300 rounded-lg"
-              {...register("multipartFile", { required: true })}
-              type='file'
-            />
-            {errors.multipartFile && (
-              <div className="mt-2 text-sm italic text-red-400 text-italic">
-                *Không được để trống ảnh sản phẩm
               </div>
             )}
             <div className="flex flex-row-reverse gap-5 mt-5">
