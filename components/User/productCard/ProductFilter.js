@@ -82,24 +82,19 @@ const ProductFilter = () => {
   };
 
   // =============== GET DATA FOR CATEGORY===========
-  useEffect(() => { });
-
   // ================ GET DATA FILTER ============
   useEffect(() => {
     if (!router.query.category) {
       dispatch(
         getProductByFilter({
-          sort,
-          tag,
           brand,
           category,
           minPrice,
           maxPrice,
-          color,
         })
       );
     }
-  }, [sort, tag, brand, category, minPrice, maxPrice, color, router]);
+  }, [brand, category, minPrice, maxPrice, router]);
   if (currentProducts) {
     return (
       <div className="mt-8">
@@ -118,7 +113,7 @@ const ProductFilter = () => {
                       [...new Set(categories)].map((item, index) => {
                         return (
                           <button
-                            key={item && item["_id"] && index}
+                            key={item && item["id"] && index}
                             className={`px-2 p-1 text-base mb-1 font-semibold bg-[#ede2d1] rounded-md cursor-pointer ${item.name === category
                                 ? "border-yellow-700 border-opacity-40"
                                 : ""
@@ -180,7 +175,7 @@ const ProductFilter = () => {
                       [...new Set(brands)].map((item, index) => {
                         return (
                           <button
-                            key={item && item["_id"]}
+                            key={item && item["id"]}
                             className={`px-2 text-base mb-1 p-1 font-semibold bg-[#ede2d1] rounded-md cursor-pointer ${brand === item.name
                                 ? "border-yellow-700 border-opacity-40"
                                 : ""

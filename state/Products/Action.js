@@ -37,17 +37,16 @@ export const getProducts = () => async (dispatch) => {
 
 export const getProductByFilter = (req) => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
+  console.log(`${API_BASE_URL}/admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
+}${req?.category ? `categoryName=${req?.category}&` : ""
+}${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
+}${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}`)
   try {
     const { data } = await axios.get(
-      `${API_BASE_URL}product?${req?.brand ? `brand=${req?.brand}&&` : ""}${
-        req?.category ? `category=${req?.category}&&` : ""
-      }${req?.color ? `color=${req?.color}&&` : ""}${
-        req?.minPrice ? `price[gte]=${req?.minPrice}&&` : ""
-      }${req?.maxPrice ? `price[lte]=${req?.maxPrice}&&` : ""}${
-        req?.sort ? `sort=${req?.sort}&&` : ""
-      }${req?.tag ? `tags=${req?.tag.toLowerCase()}&&` : ""}${
-        req?.limit ? `limit=${req?.limit}&&` : ""
-      }`,
+      `${API_BASE_URL}/admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
+      }${req?.category ? `categoryName=${req?.category}&` : ""
+      }${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
+      }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}${`size=${100}`}`,
     );
     dispatch({ type: GET_PRODUCTS_BY_FILTER_SUCCESS, payload: data });
   } catch (error) {
