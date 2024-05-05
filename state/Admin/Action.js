@@ -221,7 +221,7 @@ export const addNewProduct = (req) => async (dispatch) => {
     const { data } = await apiFormData.post(`/admin/product/create`, formdata);
     dispatch({ type: ADD_NEW_PRODUCT_SUCCESS, payload: data });
     toast.success("Thêm thành công");
-    // setTimeout(refresh, 1000);
+    console.log(data)
   } catch (error) {
     dispatch({ type: ADD_NEW_PRODUCT_FAILURE, payload: error.response.data });
     console.log(error.response.data);

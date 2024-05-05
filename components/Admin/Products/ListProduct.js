@@ -9,6 +9,7 @@ import UpdateProduct from "./UpdateProduct";
 const ListProduct = () => {
   const dispatch = useDispatch();
   const brands = useSelector((store) => store?.product?.products?.content);
+  console.log(brands)
   const [productList, setProductList] = useState([]);
   const [rowsLimit, setRowsLimit] = useState(10);
   const [rowsToShow, setRowsToShow] = useState([]);

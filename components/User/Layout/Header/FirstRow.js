@@ -54,7 +54,7 @@ export default function FirstRow(props) {
           href="/"
           className="px-5 mb-0 font-sans text-3xl font-semibold tracking-wide text-orange-gray hover:cursor-pointer"
         >
-          ElectricalD
+          BootsAuth
         </Link>
         <div className="relative flex flex-row items-stretch w-full col-span-3">
           <input

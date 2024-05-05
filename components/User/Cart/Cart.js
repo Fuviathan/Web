@@ -16,7 +16,7 @@ const Cart = (props) => {
   useEffect(() => {
     // Get the value from local storage if it exists
     dispatch(getCart(value.id))
-  }, [cart, cartItem]);
+  }, [cartItem]);
 
   if (!cart || cart?.totalPrice === 0) return (
     <div className="flex flex-col items-center justify-center h-full my-4 bg-white">

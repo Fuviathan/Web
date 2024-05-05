@@ -53,6 +53,7 @@ const ProductFilter = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((store) => store?.product?.products?.content);
+  console.log(products)
   // const colors = useSelector((store) => store?.product?.color);
   const brands = useSelector((store) => store?.product?.brand?.content);
   const categories = useSelector((store) => store?.product?.category?.content);

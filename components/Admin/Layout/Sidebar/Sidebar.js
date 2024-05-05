@@ -38,7 +38,7 @@ export default function Sidebar({ Menus, Menusub }) {
                     className={`text-white origin-left font-medium text-xl duration-200 ${!open && "scale-0"
                         }`}
                 >
-                    Electronic Device
+                    BootsAuth
                 </h1>
             </div>
             <ul className="pt-6">

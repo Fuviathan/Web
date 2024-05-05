@@ -16,19 +16,23 @@ import { Review } from "./Review";
 import SwiperProduct from "./SwiperProduct";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { If } from "react-haiku";
 import { addProductToCart, clearCart } from "@/state/Cart/Action";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product }) {
+  const router = useRouter()
   const dispatch = useDispatch();
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   let userInformation
   if (typeof window !== 'undefined') {
     userInformation = localStorage.getItem('user') || ""
-    userInformation = JSON.parse(userInformation)
+    if (userInformation) {
+      userInformation = JSON.parse(userInformation)
+    }
   }
-  
+
   // ======= OPTION MENU==============
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
@@ -46,7 +50,7 @@ export default function ProductDetail({ product }) {
           id: userInformation?.id,
           productId: product?.id,
           quantity: quantity,
-          price: product?.variations[0]?.price,
+          price: product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100,
           attributeVariationLv1: product?.variations[0]?.attributeVariationLv1
         },
       ],
@@ -74,8 +78,9 @@ export default function ProductDetail({ product }) {
             <h1 className="mb-2 font-sans text-2xl font-semibold ">
               {product?.title}
             </h1>
-            <div className="pt-2 mb-2 text-xl font-semibold blox">
-              <span>{product?.variations[0].price}$</span>
+            <div className="flex pt-2 mb-2 text-xl font-semibold">
+              <span className="mr-2 text-2xl">{(product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100).toFixed(2)}$</span>
+              <span className="text-lg font-semibold line-through">{product?.variations[0].price.toFixed(2)}$</span>
             </div>
             <div className="flex gap-5">
               <Rating value={5} readOnly></Rating>
@@ -142,17 +147,32 @@ export default function ProductDetail({ product }) {
           </div>
           <div className="col-span-3 ">
             <div className="grid grid-flow-col col-span-2 gap-4 auto-cols-max">
-              <Button
-                className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
-                variant="contained"
-                size="large"
-                onClick={() => {
-                  handleAddToCart(product);
-                }}
-              >
-                <AddShoppingCart />
-                <div className="font-semibold">Thêm vào giỏ hàng</div>
-              </Button>
+              <If isTrue={userInformation}>
+                <Button
+                  className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    handleAddToCart(product);
+                  }}
+                >
+                  <AddShoppingCart />
+                  <div className="font-semibold">Thêm vào giỏ hàng</div>
+                </Button>
+              </If>
+              <If isTrue={!userInformation}>
+                <Button
+                  className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    router.push('/login');
+                  }}
+                >
+                  <AddShoppingCart />
+                  <div className="font-semibold">Thêm vào giỏ hàng</div>
+                </Button>
+              </If>
               {/* <Button
                 className="shadow-lg bg-light-brown hover:cursor-pointer text-orange-gray hover:bg-opacity-80 hover:bg-light-brown"
                 variant="contained"
